@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h1>Nuestros productos</h1>
+        <p:growl id="mensajes" globalOnly="true" showDetail="true" showSummary="trie" />
+            
+        <h:form id="formProducto">
+            <p:dataTable var="categoria" value="#{categoriaManejador.lista}" >
+                <p:column headerText="Id PRO"  >
+                    <h:outputText value="#{categoria.idCategoria}"  />
+                </p:column>
+                <p:column headerText="Id cat"  >
+                    <h:outputText value="#{categoria.categoria}"  />
+                </p:column>
+                <p:column headerText="Nombre"  >
+                    <h:outputText value="#{categoria.estado}"  />
+                </p:column>
+                <p:column headerText="Moneda"  >
+                    <h:outputText value="#{categoria.idUsuario.idUsuario }"  />
+                </p:column>
+                
+                 <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":formProductoDetalle:dialogDetalleProducto" oncomplete="PF('productDialog').show()" icon="pi pi-search" title="Ver">
+                        <f:setPropertyActionListener value="#{categoria}" target="#{categoriaManejador.categoriaSeleccion }" />
+                </p:commandButton>    
+                     
+            </p:column>
+                
+
+            </p:dataTable>
+        </h:form>
+        <h:form id="formProductoDetalle">
+            <p:dialog id="dialogDetalleProducto" widgetVar="productDialog" modal="true" header="Detalle de producto" >
+                    
+                <center>
+                    <p:panelGrid   columns="2">
+                        
+                    <h:outputText value="Id producto"></h:outputText>
+                    <h:inputText value="#{categoriaManejador.categoriaSeleccion.idCategoria}" ></h:inputText>
+                    
+                    <h:outputText value="Nombre"></h:outputText>
+                    <h:inputText value="#{categoriaManejador.categoriaSeleccion.categoria}" ></h:inputText>
+                    <h:outputText value="Estado"></h:outputText>
+                    <h:inputText value="#{categoriaManejador.categoriaSeleccion.estado}" ></h:inputText>
+                    <h:outputText value="usuario"></h:outputText>
+                    <h:inputText value="#{categoriaManejador.categoriaSeleccion.idUsuario}" ></h:inputText>
+                    
+                    
+                    <p:commandButton value="Eliminar"  actionListener="#{categoriaManejador.eliminar()}" update=":mensajes" 
+                                     onsuccess="PF('productDialog').hide()" ></p:commandButton>
+                    
+                    <p:commandButton value="Guardar"  actionListener="#{categoriaManejador.guardar()}" process="@this" update=":mensajes" 
+                                     onsuccess="PF('productDialog').hide()"  ></p:commandButton>
+                    
+                        
+                    
+                </p:panelGrid>
+                </center>
+                
+            </p:dialog>
+        </h:form>
+       
+    </h:body>
+</html>
+
